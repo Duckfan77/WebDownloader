@@ -73,15 +73,14 @@ while url:
 			body.remove(p)
 
 		#Print main text of body
-		#print(html.tostring(body))
+		#print(html.tostring(body).decode())
 
 		#Populate TOC and Body
 		toc+='<a href="#chap'+str(index)+'">'+title.text_content()+'</a><br>'
 		bookBody+='<h1 id="chap'+str(index)+'">'+title.text_content()+'</h1>'
-		#bookBody+=str(html.tostring(body))
-		bookBody+=str(b''.join((map(html.tostring, body.iterchildren()))))
+		bookBody+=(html.tostring(body)).decode()	#Outer div tag remains, but gerenally not impactful. Following line attempts to remove outer div tage, but frequently fails to get full text.
+		#bookBody+=(b''.join((map(html.tostring, body.iterchildren(), 'unicode'))).decode())
 
 		index+=1
-
 with open(output,'w') as f:
 	f.write(toc+'\n'+bookBody)
